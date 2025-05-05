@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Problemas de Monedas - Heurística</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #ecf0f1;
+      color: #333;
+      padding: 40px;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      font-size: 3rem;
+      margin-bottom: 30px;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    }
+    /* Menú de navegación */
+    nav {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 40px;
+    }
+    nav a {
+      background-color: #3498db;
+      color: white;
+      padding: 15px 25px;
+      text-decoration: none;
+      border-radius: 30px;
+      margin: 0 20px;
+      font-size: 1.2rem;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    nav a:hover {
+      background-color: #2980b9;
+      transform: translateY(-5px);
+      box-shadow: 0 8px 12px rgba(0,0,0,0.2);
+    }
+    /* Estilos de las tarjetas */
+    .card {
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      padding: 30px;
+      margin-bottom: 40px;
+      max-width: 800px;
+      width: 100%;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 25px rgba(0,0,0,0.2);
+    }
+    h2 {
+      color: #1f618d;
+      margin-top: 0;
+      font-size: 2rem;
+      text-transform: uppercase;
+    }
+    h3 {
+      color: #21618c;
+      font-size: 1.5rem;
+    }
+    pre {
+      background: #f9f9f9;
+      border-left: 5px solid #3498db;
+      padding: 15px;
+      overflow-x: auto;
+      font-family: 'Courier New', monospace;
+      color: #2d3436;
+      border-radius: 10px;
+    }
+    ol {
+      background: #fdfdfd;
+      border-left: 5px solid #2ecc71;
+      padding: 15px 20px;
+      margin: 10px 0;
+      border-radius: 10px;
+    }
+    strong {
+      color: #e67e22;
+    }
+    .conclusion {
+      background: #e8f8f5;
+      border-left: 5px solid #17a589;
+      padding: 15px 20px;
+      margin-top: 20px;
+      border-radius: 10px;
+    }
+    /* Animaciones */
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .card, h1, nav a {
+      animation: fadeIn 0.8s ease-out forwards;
+    }
+    /* Estilos para los enlaces */
+    nav a {
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>💡 Resolución de Problemas de Monedas (Heurística)</h1>
+
+  <!-- Menú de navegación -->
+  <nav>
+    <a href="#problema1">Problema 1: Cuatro monedas, una falsa</a>
+    <a href="#problema2">Problema 2: Nueve monedas, una más liviana</a>
+  </nav>
+
+  <!-- Problema 1 -->
+  <div class="card" id="problema1">
+    <h2>🪙 Problema 1: Cuatro monedas, una falsa (peso diferente)</h2>
+    <p><strong>Planteamiento:</strong> Una moneda tiene peso distinto (puede ser más ligera o más pesada). Solo se pueden hacer 2 pesadas.</p>
+
+    <h3>📘 Estrategia paso a paso:</h3>
+    <ol>
+      <li>Pesa M1 contra M2.</li>
+      <li>Si M1 = M2 ⇒ falsa entre M3 y M4.</li>
+      <li>Pesa M3 contra M1 (referencia confiable).</li>
+      <li>Determina si M3 o M4 es falsa.</li>
+      <li>Si M1 ≠ M2 ⇒ falsa entre M1 y M2.</li>
+      <li>Pesa M1 contra M3 (que no participó antes).</li>
+    </ol>
+
+    <h3>📊 Ejemplo:</h3>
+    <pre>
+Pesos:
+M1 = 10
+M2 = 10
+M3 = 9   ← Falsa
+M4 = 10
+
+Primera pesada:
+     [ 10 ]====[ 10 ]
+       M1        M2
+Resultado: Igual → falsa está en M3 o M4
+
+Segunda pesada:
+     [  9 ]    [ 10 ]
+       M3        M1
+Resultado: M3 sube → M3 es la falsa y es más liviana
+    </pre>
+
+    <div class="conclusion">
+      ✅ <strong>Conclusión:</strong> La moneda falsa es la <strong>M3</strong> y es <strong>más liviana</strong>.
+    </div>
+  </div>
+
+  <!-- Problema 2 -->
+  <div class="card" id="problema2">
+    <h2>🪙 Problema 2: Nueve monedas, una más liviana</h2>
+    <p><strong>Planteamiento:</strong> Una moneda es más liviana, las otras tienen igual peso. Solo se permiten 2 pesadas.</p>
+
+    <h3>📘 Estrategia paso a paso:</h3>
+    <ol>
+      <li>Divide en tres grupos de 3: A={1,2,3}, B={4,5,6}, C={7,8,9}.</li>
+      <li>Pesa A contra B.</li>
+      <li>Si A = B ⇒ ligera en C.</li>
+      <li>Pesa M7 contra M8.</li>
+      <li>Determina cuál es más liviana entre M7, M8 o M9.</li>
+      <li>Si A ≠ B, el grupo con menor peso contiene la falsa.</li>
+    </ol>
+
+    <h3>📊 Ejemplo:</h3>
+    <pre>
+Pesos:
+M1–M6 = 5
+M7 = 4   ← Falsa
+M8, M9 = 5
+
+Primera pesada:
+    [ 15 ]====[ 15 ]
+     M1–3       M4–6
+
+Resultado: Igual → la ligera está entre M7, M8, M9
+
+Segunda pesada:
+     [  4 ]    [  5 ]
+       M7        M8
+Resultado: M7 sube → M7 es la falsa
+    </pre>
+
+    <div class="conclusion">
+      ✅ <strong>Conclusión:</strong> La moneda más liviana es la <strong>M7</strong>.
+    </div>
+  </div>
+
+</body>
+</html>
